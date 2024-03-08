@@ -1,13 +1,26 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    // Other fields...
+    restaurantId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Restaurant',
+        required: true
+    },
+    items: [{
+        name: { type: String, required: true },
+        quantity: { type: Number, required: true }
+    }],
+    deliveryAgent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DeliveryAgent' // Reference to the DeliveryAgent model
+    },
     status: {
         type: String,
-        enum: ['Pending', 'Accepted', 'Completed', 'Rejected'], // Add 'Rejected' as a valid enum value
-        default: 'Pending' // Set the default status to 'Pending'
-    },
-    // Other fields...
+        enum: ['Pending', 'Accepted', 'Completed', 'Rejected'],
+        default: 'Pending'
+    }
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+const Order = mongoose.model('Order', orderSchema);
+
+module.exports = Order;

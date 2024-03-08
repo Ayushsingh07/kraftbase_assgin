@@ -2,8 +2,32 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const Order = require('../modules/orderModel');
+const DeliveryAgent = require('../modules/deliveryAgent'); 
 
 router.use(bodyParser.json());
+
+
+router.post('/add', async (req, res) => {
+    const { name, available } = req.body;
+
+    try {
+        // Create a new delivery agent
+        const newDeliveryAgent = new DeliveryAgent({
+            name,
+            available
+        });
+
+        // Save the new delivery agent to the database
+        await newDeliveryAgent.save();
+
+        res.status(201).json(newDeliveryAgent);
+    } catch (error) {
+        console.error("Error adding new delivery agent:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
 
 router.put('/:orderId', async (req, res) => {
     const { orderId } = req.params;

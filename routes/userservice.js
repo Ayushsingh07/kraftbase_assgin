@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Restaurant = require('../modules/restaurantModel');
 const Order = require('../modules/orderModel');
+const DeliveryAgent = require('../modules/deliveryAgent');
+
 
 // Retrieve a list of all restaurants available online at the given hour
 router.get('/restaurants', async (req, res) => {
@@ -41,30 +43,31 @@ router.post('/order', async (req, res) => {
     }
 });
 
-
 // Allow users to leave ratings for their orders and delivery agents
-router.post('/orders/:orderId/rate', async (req, res) => {
-    const { orderId } = req.params;
-    const { orderRating, deliveryAgentRating } = req.body;
-
+router.post('/ratings', async (req, res) => {
     try {
+        const { orderId, deliveryAgentId, orderRating, deliveryAgentRating } = req.body;
+
         // Update order rating
-        const order = await Order.findByIdAndUpdate(orderId, { orderRating }, { new: true });
-        if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+        if (orderId && orderRating) {
+            await Order.findByIdAndUpdate(orderId, { $set: { rating: orderRating } });
         }
 
         // Update delivery agent rating
-        // Assuming the delivery agent name is stored in the order document
-        const deliveryAgent = await DeliveryAgent.findOneAndUpdate({ name: order.deliveryAgent }, { $push: { ratings: deliveryAgentRating } }, { new: true });
-        if (!deliveryAgent) {
-            return res.status(404).json({ error: "Delivery agent not found" });
+        if (deliveryAgentId && deliveryAgentRating) {
+            await DeliveryAgent.findByIdAndUpdate(deliveryAgentId, { $set: { rating: deliveryAgentRating } });
         }
 
-        res.json({ order, deliveryAgent });
+        res.status(200).json({ message: "Ratings added successfully" });
     } catch (error) {
+        console.error("Error adding ratings:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+
+
+
+module.exports = router;
 
 module.exports = router;

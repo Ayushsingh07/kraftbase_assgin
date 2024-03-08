@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // Import routes
 const restaurantService = require('./routes/Resurant');
 const userService = require('./routes/userservice'); 
+const deliveryAgentRouter = require('./routes/deliveryAgentService');
 
 // Create Express app
 const app = express();
@@ -25,6 +26,9 @@ app.use('/restaurants', restaurantService);
 
 // Use userService router for /users route
 app.use('/users', userService);
+
+// Use the delivery agent router
+app.use('/deliveryagents', deliveryAgentRouter);
 
 
 // Error handling middleware
