@@ -3,7 +3,7 @@ Here's the combined code with explanations in Markdown format:
 ```markdown
 # API Endpoints Explanation
 
-This Markdown document provides explanations for the API endpoints implemented in the provided Node.js Express router.
+This Markdown document provides explanations for the API endpoints implemented.
 
 ## Endpoint APIs
 
