@@ -1,6 +1,59 @@
-Here's the combined code with explanations in Markdown format:
+Deployment Server: [https://kraftbase-assgin.onrender.com](https://kraftbase-assgin.onrender.com)
 
-```markdown
+```javascript
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+// Import routes
+const restaurantService = require('./routes/Resurant');
+const userService = require('./routes/userservice'); 
+const deliveryAgentRouter = require('./routes/deliveryAgentService');
+
+// Create Express app
+const app = express();
+
+// Middleware to parse incoming requests with JSON payloads
+app.use(bodyParser.json(), cors());
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://nqu7069:kraft123@cluster0.rahknnu.mongodb.net/', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})  
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
+
+// Use restaurantService router for /restaurants route
+app.use('/restaurants', restaurantService);
+
+// Use userService router for /users route
+app.use('/users', userService);
+
+// Use the delivery agent router
+app.use('/deliveryagents', deliveryAgentRouter);
+
+// Welcome message on the root route
+app.get('/', (req, res) => {
+    res.send('Welcome to bamato');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => { // Listen on any available IP address
+    console.log(`Server is running on port ${PORT}`);
+});
+```
+
+Explanation in Markdown:
+
 # API Endpoints Explanation
 
 This Markdown document provides explanations for the API endpoints implemented.
@@ -31,134 +84,7 @@ This Markdown document provides explanations for the API endpoints implemented.
   ```
 
 ### 2. POST /order
-- **Purpose**: Place an order from the available restaurants.
-- **Request Method**: POST
-- **Request Body**: JSON object with `restaurantId` (string) and `items` (array) representing the items in the order.
-- **Response Body**: JSON object representing the placed order.
-- **Example Request**:
-  ```json
-  POST /order
-  {
-    "restaurantId": "6061ae23f9d10f2278405e07",
-    "items": ["Item 1", "Item 2"]
-  }
-  ```
-- **Example Response**:
-  ```json
-  {
-    "_id": "6061ae23f9d10f2278405e08",
-    "restaurantId": "6061ae23f9d10f2278405e07",
-    "items": ["Item 1", "Item 2"],
-    "status": "Pending",
-    ...
-  }
-  ```
-
-### 3. POST /ratings
-- **Purpose**: Allow users to leave ratings for their orders and delivery agents.
-- **Request Method**: POST
-- **Request Body**: JSON object with optional `orderId`, `deliveryAgentId`, `orderRating`, and `deliveryAgentRating`.
-- **Response Body**: JSON object with a success message.
-- **Example Request**:
-  ```json
-  POST /ratings
-  {
-    "orderId": "6061ae23f9d10f2278405e08",
-    "orderRating": 4,
-    "deliveryAgentId": "6061ae23f9d10f2278405e09",
-    "deliveryAgentRating": 5
-  }
-  ```
-- **Example Response**:
-  ```json
-  {
-    "message": "Ratings added successfully"
-  }
-  ```
-
-### 4. GET /orders/:restaurantId
-- **Purpose**: Get all orders for a specific restaurant.
-- **Request Method**: GET
-- **Request Parameter**: `restaurantId` (string) representing the ID of the restaurant.
-- **Response Body**: Array of JSON objects representing orders for the specified restaurant.
-- **Example Request**:
-  ```json
-  GET /orders/6061ae23f9d10f2278405e07
-  ```
-- **Example Response**:
-  ```json
-  [
-    {
-      "_id": "6061ae23f9d10f2278405e08",
-      "restaurantId": "6061ae23f9d10f2278405e07",
-      "items": ["Item 1", "Item 2"],
-      "status": "Pending",
-      ...
-    },
-    ...
-  ]
-  ```
-
-### 5. POST /:id/orders/accept
-- **Purpose**: Accept an order from the restaurant.
-- **Request Method**: POST
-- **Request Parameter**: `id` (string) representing the ID of the restaurant.
-- **Response Body**: JSON object representing the accepted order.
-- **Example Request**:
-  ```json
-  POST /6061ae23f9d10f2278405e07/orders/accept
-  ```
-- **Example Response**:
-  ```json
-  {
-    "_id": "6061ae23f9d10f2278405e08",
-    "restaurantId": "6061ae23f9d10f2278405e07",
-    "items": ["Item 1", "Item 2"],
-    "status": "Accepted",
-    ...
-  }
-  ```
-
-### 6. POST /:id/orders/reject
-- **Purpose**: Reject an order from the restaurant.
-- **Request Method**: POST
-- **Request Parameter**: `id` (string) representing the ID of the restaurant.
-- **Response Body**: JSON object representing the rejected order.
-- **Example Request**:
-  ```json
-  POST /6061ae23f9d10f2278405e07/orders/reject
-  ```
-- **Example Response**:
-  ```json
-  {
-    "_id": "6061ae23f9d10f2278405e08",
-    "restaurantId": "6061ae23f9d10f2278405e07",
-    "items": ["Item 1", "Item 2"],
-    "status": "Rejected",
-    ...
-  }
-  ```
-
-### 7. GET /ord/:orderId
-- **Purpose**: Get an order by its ID.
-- **Request Method**: GET
-- **Request Parameter**: `orderId` (string) representing the ID of the order.
-- **Response Body**: JSON object representing the order.
-- **Example Request**:
-  ```json
-  GET /ord/6061ae23f9d10f2278405e08
-  ```
-- **Example Response**:
-  ```json
-  {
-    "_id": "6061ae23f9d10f2278405e08",
-    "restaurantId": "6061ae23f9d10f2278405e07",
-    "items": ["Item 1", "Item 2"],
-    "status": "Accepted",
-    ...
-  }
-  ```
+...
+// Remaining endpoint explanations
 ```
 
-This Markdown document provides clear explanations for each API endpoint, including request methods, request parameters, request bodies, and response bodies.
-ssh -i "inst1.pem" ubuntu@ec2-13-60-26-131.eu-north-1.compute.amazonaws.com
