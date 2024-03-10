@@ -86,7 +86,7 @@ router.post('/:id/orders/accept', async (req, res) => {
 
         // Update order status and assigned delivery agent
         order.status = "Accepted";
-        order.deliveryAgent = assignedAgent._id; // Assign the ObjectId of the delivery agent
+        order.deliveryAgent = assignedAgent._id; 
         await order.save();
 
         res.json(order);
