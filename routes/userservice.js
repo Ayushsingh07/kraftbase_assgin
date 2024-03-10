@@ -38,7 +38,7 @@ router.post('/order', async (req, res) => {
         
         res.status(201).json(order);
     } catch (error) {
-        console.error("Error placing order:", error); // Log the error for debugging
+        console.error("Error placing order:", error); 
         res.status(500).json({ error: "Internal server error" });
     }
 });
@@ -70,4 +70,3 @@ router.post('/ratings', async (req, res) => {
 
 module.exports = router;
 
-module.exports = router;

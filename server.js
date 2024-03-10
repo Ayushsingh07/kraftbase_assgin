@@ -22,10 +22,10 @@ mongoose.connect('mongodb+srv://nqu7069:kraft123@cluster0.rahknnu.mongodb.net/',
 .catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Use restaurantService router for /restaurants route
-app.use('api/restaurants', restaurantService);
+app.use('/restaurants', restaurantService);
 
 // Use userService router for /users route
-app.use('api/users', userService);
+app.use('/users', userService);
 
 // Use the delivery agent router
 app.use('/deliveryagents', deliveryAgentRouter);
