@@ -161,3 +161,4 @@ This Markdown document provides explanations for the API endpoints implemented.
 ```
 
 This Markdown document provides clear explanations for each API endpoint, including request methods, request parameters, request bodies, and response bodies.
+ssh -i "inst1.pem" ubuntu@ec2-13-60-26-131.eu-north-1.compute.amazonaws.com
