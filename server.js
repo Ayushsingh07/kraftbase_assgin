@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const cors = require('cors')
 // Import routes
 const restaurantService = require('./routes/Resurant');
 const userService = require('./routes/userservice'); 
@@ -11,13 +11,13 @@ const deliveryAgentRouter = require('./routes/deliveryAgentService');
 const app = express();
 
 // Middleware to parse incoming requests with JSON payloads
-app.use(bodyParser.json());
+app.use(bodyParser.json(), cors());
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://nqu7069:kraft123@cluster0.rahknnu.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-})
+})  
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Error connecting to MongoDB:', err));
 
