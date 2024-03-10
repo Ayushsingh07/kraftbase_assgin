@@ -30,6 +30,10 @@ app.use('/users', userService);
 // Use the delivery agent router
 app.use('/deliveryagents', deliveryAgentRouter);
 
+app.get('/', (req, res) => {
+    res.send('Welcome to bamato');
+});
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
