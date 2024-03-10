@@ -28,7 +28,7 @@ app.use('api/restaurants', restaurantService);
 app.use('api/users', userService);
 
 // Use the delivery agent router
-app.use('api/deliveryagents', deliveryAgentRouter);
+app.use('/deliveryagents', deliveryAgentRouter);
 
 
 // Error handling middleware
